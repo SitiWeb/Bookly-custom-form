@@ -166,9 +166,10 @@ class bookly_sw_custom
 
                 $customer_sql = "SELECT customer_id, number_of_persons, payment_id, units, status, notes, custom_fields FROM $this->customer_appointments_table where appointment_id =" . $list_value['id'];
                 $customer_data = $wpdb->get_row($customer_sql, ARRAY_A);
-
+               
                 if (is_array($customer_data) && !empty($customer_data)) {
 
+                    
                     if (!empty($customer_data['customer_id'])) {
 
                         $user = $this->get_customers(['id' => $customer_data['customer_id']]);
@@ -927,7 +928,7 @@ class bookly_sw_custom
         }
 
 
-        if (isset($params['id']) && count($params['id']) > 0) {
+        if (isset($params['id']) && is_array($params['id']) && count($params['id']) > 0) {
             if (isset($condition_arg) && !empty($condition_arg)) {
                 $condition_arg .= " and `id` = '" . $params['id'] . "' ";
             } else {

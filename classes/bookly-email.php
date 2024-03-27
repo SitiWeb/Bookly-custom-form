@@ -7,8 +7,10 @@ class sw_bookly_email{
     }
 
     public function todays_appointments(){
+        $days_start = strtotime('+2 days');
+        $days_end = strtotime('+3 days');
         $boeking = new bookly_sw_custom();
-        $afspraken = $boeking->get_appointments(['filter' => ['startdate' => date('Y-m-d H:i:s', strtotime('+2 days')), 'enddate' => date('Y-m-d H:i:s', strtotime('+3 days')),
+        $afspraken = $boeking->get_appointments(['filter' => ['startdate' => date('Y-m-d H:i:s', $days_start), 'enddate' => date('Y-m-d H:i:s', $days_end),
 																 'order' => 'ASC',
 																  'orderby' => 'start_date',
 															   ]]);
@@ -19,26 +21,42 @@ class sw_bookly_email{
     public function prepare_data()
     {
         $appointments = $this->todays_appointments();
+        global $wpdb;
+        $table_name_customer  = $wpdb->prefix . 'bookly_customers';
         $action_array = [];
-
+        
         foreach ($appointments as $appointment) {
-            $emailAddress = $appointment['customer_appointment']['all_data']['email'];
+            $emailadres = '';
+            if (isset($appointment['customer_appointment'])){
+                $customer_appointment = $appointment['customer_appointment'];
+          
+                if (isset($customer_appointment['customer_id'])){
+                    $customer_data = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name_customer WHERE id = %d", $customer_appointment['customer_id']), ARRAY_A);
+                    if ($customer_data){
+                        $appointment['customer_data'] = $customer_data;
+                        if (isset($customer_data['email'])){
+                            $emailadres = $customer_data['email'];
+                        }
+                       
+                    }
+                }
+            }
             
-            if (!empty($emailAddress)) {
-                if (!isset($action_array[$emailAddress])) {
+
+           // var_dump($emailadres);
+            
+            if (!empty($emailadres)) {
+                if (!isset($action_array[$emailadres])) {
                     
-                    $action_array[$emailAddress] = [];
+                    $action_array[$emailadres] = [];
                 }
 
-                $action_array[$emailAddress][] = $appointment;
+                $action_array[$emailadres][] = $appointment;
             }
 
-            //print_pre($appointment);
+            print_pre($action_array);
         }
-// 		echo '<pre>';
-// 		var_dump($action_array);
-// 				echo '</pre>';
-// 		wp_die();
+
 
         // Debugging: Print the final action array
         return $action_array;
@@ -49,12 +67,13 @@ class sw_bookly_email{
         // Prepare email content in Dutch
         $data_appointments = [];
         foreach ($data2 as $appoint){
+        
             if ($appoint['service_id']['category_id'] != 11){
                 // Convert string to DateTime objects
                 $startDateTime = new DateTime($appoint['start_date']);
                 $endDateTime = new DateTime($appoint['end_date']);
                 $data_appointments[] = [ 
-                    'naam' => $appoint['customer_appointment']['all_data']['first_name'],
+                    'naam' => $appoint['customer_data']['first_name'],
                     'title' => $appoint['service_id']['title'],
                     'start_time' => $startDateTime->format('H:i'),
                     'end_time' => $endDateTime->format('H:i'),
@@ -65,9 +84,10 @@ class sw_bookly_email{
         }
 
        if ($data_appointments){
+
             $subject = "Herinnering: Uw afspraak staat gepland";
     
-                $message = "Beste ".$data_appointments[0]['naam'].",<br><br>Dit is een herinnering voor uw afspraak op ".$data_appointments['start_data']." bij BodyUnlimited";
+                $message = "Beste ".$data_appointments[0]['naam'].",<br><br>Dit is een herinnering voor uw afspraak op ".$data_appointments[0]['date']." bij BodyUnlimited";
                 $message .= "<ul>";
                 foreach ($data_appointments as $data) {
                     $message .= "<li>" . $data['title'] . " op " . $data['date']. " om " . $data['start_time']. " uur</li>";
@@ -103,9 +123,9 @@ class sw_bookly_email{
         // More headers
         $headers .= 'From: <zaandam@bodyunlimited.nl>' . "\r\n";
         $sent = false;
-        //echo $message_html;
-        $sent = mail($to,$subject,$message_html,$headers);
-        $sent = mail('zaandam@bodyunlimited.nl',$subject,$message_html,$headers);
+        echo $message_html;
+        // $sent = mail( 'roberto@sitiweb.nl',$subject,$message_html,$headers);
+        // $sent = mail('zaandam@bodyunlimited.nl',$subject,$message_html,$headers);
         if ($sent) {
             // Email sent successfully
             echo "Reminder email sent to " . $to . "<br>";

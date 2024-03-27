@@ -1076,13 +1076,15 @@ function test_function_sw2() {
     // Check if it's after 8 o'clock
     if (date('H') >= 8) {
         // Your function code here
-        if (isset($_GET['send_emails'])) {
+        //if (isset($_GET['send_emails'])) {
             $test = new sw_bookly_email();
             $data = $test->prepare_data();
-
+           
             foreach ($data as $key => $array) {
+                
                 $test->send_email($key, $array);
             }
-        }
+        //}
     }
 }
+add_action('wp_head','test_function_sw2');
