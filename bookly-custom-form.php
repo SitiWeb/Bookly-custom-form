@@ -17,7 +17,7 @@ if( ! class_exists( 'SitiWeb_Updater' ) ){
 
 $updater = new SitiWeb_Updater( __FILE__ );
 $updater->set_username( 'SitiWeb' );
-$updater->set_repository( 'bookly-custom-form' );
+$updater->set_repository( 'Bookly-custom-form' );
 $updater->initialize();
 
 require_once('classes/bookly-sw-custom.php');
