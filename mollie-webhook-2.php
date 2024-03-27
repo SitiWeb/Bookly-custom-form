@@ -28,6 +28,49 @@ if ($payment_id) {
         error_log('set is paid');
         (new SWBooklyMollie())->change_payment_status($payment->id); 
     }
+    elseif ($payment->isFailed()) {
+        error_log('Expired: isFailed: ' . print_r($orderId, true));
+        $sw_bookly->delete_by_custom_id($orderId);
+        set_mollie_status($_POST["id"], 'rejected');
+   
+        /*
+         * The payment has failed.
+         */
+    } elseif ($payment->isExpired()) {
+        error_log('Expired: isExpired: ' . print_r($orderId, true));
+        $sw_bookly->delete_by_custom_id($orderId);
+        set_mollie_status($_POST["id"], 'rejected');
+
+        /*
+         * The payment is expired.
+         */
+    } elseif ($payment->isCanceled()) {
+        error_log('Expired: isCanceled: ' . print_r($orderId, true));
+        $sw_bookly->delete_by_custom_id($orderId);
+        set_mollie_status($_POST["id"], 'rejected');
+
+        /*
+         * The payment has been canceled.
+         */
+    } elseif ($payment->hasRefunds()) {
+        error_log('Expired: hasRefunds: ' . print_r($orderId, true));
+        $sw_bookly->delete_by_custom_id($orderId);
+        set_mollie_status($_POST["id"], 'refunded');
+
+        /*
+         * The payment has been (partially) refunded.
+         * The status of the payment is still "paid"
+         */
+    } elseif ($payment->hasChargebacks()) {
+        error_log('Expired: Deleting: ' . print_r($orderId, true));
+        $sw_bookly->delete_by_custom_id($orderId);
+        set_mollie_status($_POST["id"], 'rejected');
+
+        /*
+         * The payment has been (partially) charged back.
+         * The status of the payment is still "paid"
+         */
+    }
  
 
     // Now you can handle the webhook data
