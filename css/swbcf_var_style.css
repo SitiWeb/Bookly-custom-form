@@ -1,0 +1,444 @@
+/* Style voor de container */
+
+#bookly_custom_form_container,
+#swbcf_updater_container {
+    padding: 30px;
+    min-width: 650px;
+    width: 650px;
+}
+
+
+/* Style voor de container als het scherm kleiner is dan de breddte van de container*/
+
+@media only screen and (max-width: 650px) {
+    #bookly_custom_form_container {
+        min-width: 100%;
+        width: 100%;
+    }
+}
+
+
+/* Style voor alle elementen in de container, dit zijn dus alle inputs en buttons */
+
+#bookly_custom_form_container * {
+    margin-bottom: 10px;
+}
+
+
+/* Style voor alle inputs en selects, maar geen buttons */
+
+#bookly_custom_form_container select,
+#bookly_custom_form_container input,
+#bookly_custom_form_second_container select,
+#bookly_custom_form_second_container input,
+#bookly_custom_form_third_container textarea {
+    border-radius: 2px;
+    border: 1px solid rgb(160, 160, 160);
+    min-width: 100%;
+    margin-left: 0px;
+}
+
+
+/* Pas de kleur van de placeholder text aan  */
+
+::placeholder {
+    color: var(--form--color-text);
+}
+
+
+/* Maak de date input container position relative zodat de after absolute beter werkt */
+
+#bookly_custom_form_date_label {
+    position: relative;
+}
+
+
+/* Voeg een font awesome icoon toe aan de datepicker doormiddel van font awesome en een pseudo element */
+
+#bookly_custom_form_date_label:after,
+#bookly_custom_form_update_service_label:after {
+    position: absolute;
+    right: 8px;
+    bottom: 23px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 20px;
+    content: "\f783";
+}
+
+
+/* Style voor de buttons */
+
+#bookly_custom_form_container button {
+    border-radius: 3px;
+    background-color: var(--swbcf-primary-color);
+    color: var(--swbcf-text-color);
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+
+/* Style voor als er over de buttons gehovered word */
+
+#bookly_custom_form_container button:hover {
+    background-color: var(--swbcf-accent-color);
+}
+
+
+/* Style voor de button van het eerste formulier */
+
+#bookly_custom_form_confirm_button {
+    margin: 0px;
+    padding: 10px 20px;
+    border: none;
+}
+
+
+/* Style voor de button van het tweede formulier */
+
+#bookly_custom_form_confirm_button_2 {
+    margin: 0px 30px;
+    padding: 10px 20px;
+    border: none;
+    margin-left: 0px!important;
+}
+
+
+/* Style voor de button van het derde en vierde formulier */
+
+#bookly_custom_form_confirm_button_3 {
+    margin: 0px 0px;
+    padding: 10px 20px;
+    border: none;
+}
+
+#bookly_custom_form_confirm_button_4 {
+    margin: 20px 0px;
+    padding: 10px 20px;
+    border: none;
+}
+
+
+/* Style die de standaard hover en focus van alle inputs etc. haalt */
+
+#bookly_custom_form_confirm_button:hover,
+#bookly_custom_form_confirm_button:focus,
+#bookly_custom_form_confirm_button_2:hover,
+#bookly_custom_form_confirm_button_2:focus,
+#bookly_custom_form_confirm_button_3:hover,
+#bookly_custom_form_confirm_button_3:focus,
+#bookly_custom_form_confirm_button_4:hover,
+#bookly_custom_form_confirm_button_4:focus,
+#bookly_custom_form_container select:focus,
+#bookly_custom_form_container input:focus,
+#bookly_custom_form_second_container select:focus,
+#bookly_custom_form_second_container input:focus,
+#bookly_custom_form_third_container textarea:focus {
+    outline: unset;
+}
+
+
+/* Style voor de container van de stappen */
+
+#bookly_custom_form_progress,
+#bookly_custom_form_update_progress {
+    width: 100%;
+}
+
+
+/* Style voor alle individuele stappen van het stappenplan */
+
+#bookly_custom_form_progress *,
+#bookly_custom_form_update_progress * {
+    min-width: calc(33% - 13px);
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: grey;
+    color: var(--swbcf-text-color);
+    display: inline-block;
+    font-size: 0.8rem;
+    text-align: center;
+    /* Zorg ervoor dat de tekst van deze blokken niet geselecteerd kan worden */
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+    cursor: pointer;
+}
+
+
+/* Maak de huidige stap in het stappenplan een andere kleur */
+
+#bookly_custom_form_progress .current-step,
+#bookly_custom_form_update_progress .current-step {
+    background-color: var(--swbcf-primary-color);
+}
+
+#bookly_custom_form_progress .current-step,
+#bookly_custom_form_progress .current-step~*,
+#bookly_custom_form_update_progress .current-step,
+#bookly_custom_form_update_progress .current-step~* {
+    cursor: not-allowed;
+}
+
+
+/* Maak de eerste stap rond aan de linker kant */
+
+#bookly_custom_form_progress .step-1,
+#bookly_custom_form_update_progress .step-1 {
+    border-radius: 15px 0px 0px 15px;
+}
+
+
+/* Maak de laatste stap rond aan de rechter kant */
+
+#bookly_custom_form_progress .step-3,
+#bookly_custom_form_update_progress .step-3 {
+    border-radius: 0px 15px 15px 0px;
+}
+
+@media only screen and (max-width: 430px) {
+    #bookly_custom_form_progress {
+        display: flex;
+        flex-direction: column;
+    }
+    #bookly_custom_form_progress * {
+        width: 100%;
+        margin-bottom: 0px;
+    }
+    #bookly_custom_form_progress .step-1 {
+        border-bottom: 1px solid white;
+        border-radius: 10px 10px 0px 0px;
+    }
+    #bookly_custom_form_progress .step-3 {
+        border-top: 1px solid white;
+        border-radius: 0px 0px 10px 10px;
+    }
+    #bookly_custom_form,
+    #bookly_custom_form_2 {
+        margin-top: 30px;
+        grid-template-columns: 100%!important;
+    }
+    #bookly_custom_form br,
+    #bookly_custom_form_2 br {
+        display: none;
+    }
+    form#bookly_custom_form_3 {
+        display: flex;
+        flex-direction: column;
+    }
+    button#bookly_custom_form_confirm_button_3 {
+        width: 100%;
+    }
+    #ui-datepicker-div {
+        width: calc(100% - 20px);
+        left: 10px!important;
+    }
+}
+
+
+/* Maak de  indeling voor het eerste en tweede formulier doormiddel van een grid */
+
+#bookly_custom_form,
+#bookly_custom_form_2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 10px;
+}
+
+
+/* Maak de tijd input van stap 2 en de tabel van stap 4 de volle breedte  */
+
+#bookly_custom_form_2 select,
+#bookly_custom_form_2 #bookly_custom_form_time_label {
+    width: 100%;
+}
+
+
+/* Maak de  indeling voor het derde formulier doormiddel van een grid */
+
+#bookly_custom_form_3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: max-content max-content 1fr;
+    grid-gap: 20px;
+}
+
+
+/* Maak het extra notitie veld van stap 3 de breedte van 2 kolommen */
+
+#bookly_custom_form_notes_label,
+#bookly_custom_form_intern_notes_label {
+    grid-column: 1 / 3;
+}
+
+
+/* Maak de width van de tabel data-cell 30% */
+
+#bookly_custom_form_result_table td {
+    width: 30%;
+}
+
+
+/* Word niet meer gebruikt (denk ik) */
+
+#bookly_custom_form_second_container h2 {
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+
+/* Style de current date van de datepicker zodat deze er niet anders uit ziet dan alle andere datums */
+
+.ui-state-highlight {
+    border: 1px solid #c5c5c5!important;
+    background: #f6f6f6!important;
+    color: #454545!important;
+}
+
+
+/* Style de gekozen datum van de datepicker */
+
+.ui-state-active {
+    border: 1px solid var(--swbcf-accent-color)!important;
+    background: var(--swbcf-primary-color)!important;
+    color: var(--swbcf-text-color)!important;
+}
+
+
+/* Geef elke datum een transition zodat deze er beter uitziet als de datum gehoverd word */
+
+.ui-state-default {
+    transition: .3s ease;
+}
+
+
+/* Geef een datum een andere kleur als deze gehoverd wordt */
+
+.ui-state-default:hover {
+    background-color: var(--swbcf-primary-color)!important;
+    color: var(--swbcf-text-color)!important;
+}
+
+
+/* Style voor de lottie player met de laad animatie voor stap 1. Deze word doormiddel van JS zichtbaar gemaakt */
+
+lottie-player {
+    width: 150px!important;
+    height: 150px!important;
+    position: relative;
+    bottom: 60px;
+    left: -50px;
+    display: none;
+}
+
+
+/* Style voor de button die redirect naar de homepage */
+
+.bookly_custom_form_final_button {
+    background-color: var(--swbcf-primary-color);
+    text-decoration: unset;
+    padding: 10px 16px;
+    color: var(--swbcf-text-color);
+    border-radius: 3px;
+    font-weight: bolder;
+}
+
+
+/* Hover style voor de homepage redirect button */
+
+.bookly_custom_form_final_button:hover,
+.bookly_custom_form_final_button:focus {
+    background-color: var(--swbcf-accent-color)!important;
+    text-decoration: unset!important;
+    outline: unset!important;
+}
+
+#bookly_custom_form_lottie_container lottie-player {
+    margin: 0 auto;
+    display: block;
+    position: unset;
+    width: 300px!important;
+    height: 300px!important;
+}
+
+lottie-player.no_page_lottie {
+    display: block;
+    width: 300px!important;
+    height: 300px!important;
+    padding: 50px 200px;
+}
+
+#bookly_custom_update_form {
+    display: grid;
+    grid-template-columns: 65% 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 10px;
+}
+
+#bookly_custom_update_form label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+#swbcf_updater_container button {
+    border-radius: 3px;
+    background-color: var(--swbcf-primary-color);
+    color: var(--swbcf-text-color);
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+
+/* Style voor als er over de buttons gehovered word */
+
+#swbcf_updater_container button:hover {
+    background-color: var(--swbcf-accent-color);
+}
+
+#bookly_update_form_confirm_button {
+    margin: 0px;
+    padding: 10px 20px;
+    border: none;
+}
+
+#swbcf_updater_container input,
+#swbcf_updater_container select {
+    border-radius: 2px;
+    border: 1px solid rgb(160, 160, 160);
+    min-width: 100%;
+    margin-left: 0px;
+    padding: 5px;
+}
+
+#swbcf_updater_container input[type='radio'] {
+    min-width: unset;
+    position: relative;
+    top: 5px;
+}
+
+#swbcf_updater_container label#update_list_radio,
+.update_form_2_legenda {
+    display: grid;
+    grid-template-columns: 50px 50% 1fr 20%;
+}
+
+#update_list_radio_container {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+#bookly_custom_form_container input[type="radio"] {
+    min-width: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+}

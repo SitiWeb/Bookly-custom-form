@@ -1,0 +1,67 @@
+/* Style voor de backend admin settings page */
+
+
+/* Ruimte onder de koppen van de back end instellingen pagina */
+
+#swbcf_admin_form h2 {
+    margin-bottom: 20px;
+}
+
+
+/* Ruimte onder alle elementen op de instellingen pagina */
+
+#swbcf_admin_form>* {
+    margin-bottom: 10px;
+}
+
+
+/* Stijl voor de opslaan knop die op de instellingen pagina staat */
+
+#swbcf_admin_form input[type='submit'] {
+    background-color: transparent;
+    padding: 8px 16px;
+    font-weight: bold;
+    color: #3F2D27;
+    border: 2px solid #3F2D27;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.3s ease;
+}
+
+#swbcf_admin_form input[type='submit']:hover {
+    background-color: #ffffff;
+}
+
+
+/* Maak van de labels op de instellingen pagina een grid zodat alle inputs netjes boven elkaar staan */
+
+#swbcf_admin_form label {
+    display: grid;
+    grid-template-columns: 50% 1fr;
+    width: 30vw;
+}
+
+
+/* Style voor het kleine stukje extra info over het mobiele nummer op de instellingen pagina */
+
+#swbcf_admin_form p {
+    font-size: 10px;
+    color: grey;
+}
+
+
+/* Admin form style voor alle inputs, de standaard stijl van het thema word hier niet toegepast en dus ziet het er zonder dit niet zo goed uit*/
+
+#bookly_custom_form_container select,
+#bookly_custom_form_container input,
+#bookly_custom_form_second_container select,
+#bookly_custom_form_second_container input,
+#bookly_custom_form_third_container textarea {
+    padding: 5px;
+}
+
+.fc-timegrid-slots td {
+    height: 40px;
+    /* Adjust the desired height here */
+}
