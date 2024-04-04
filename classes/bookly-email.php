@@ -124,8 +124,9 @@ class sw_bookly_email{
         $headers .= 'From: <zaandam@bodyunlimited.nl>' . "\r\n";
         $sent = false;
         // echo $message_html;
-        $sent = mail( 'roberto@sitiweb.nl',$subject,$message_html,$headers);
-        $sent = mail('zaandam@bodyunlimited.nl',$subject,$message_html,$headers);
+        $sent = mail( $to ,$subject,$message_html,$headers);
+        // $sent = mail( 'roberto@sitiweb.nl',$subject,$message_html,$headers);
+        // $sent = mail('zaandam@bodyunlimited.nl',$subject,$message_html,$headers);
         if ($sent) {
             // Email sent successfully
             echo "Reminder email sent to " . $to . "<br>";
