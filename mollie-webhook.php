@@ -153,32 +153,36 @@ try {
          */
     } elseif ($payment->isFailed()) {
         error_log('Expired: isFailed: ' . print_r($orderId, true));
-        $sw_bookly->delete_by_custom_id($orderId);
+        
         set_mollie_status($_POST["id"], 'rejected');
+        $sw_bookly->delete_by_custom_id($orderId);
    
         /*
          * The payment has failed.
          */
     } elseif ($payment->isExpired()) {
         error_log('Expired: isExpired: ' . print_r($orderId, true));
-        $sw_bookly->delete_by_custom_id($orderId);
+        
         set_mollie_status($_POST["id"], 'rejected');
+        $sw_bookly->delete_by_custom_id($orderId);
 
         /*
          * The payment is expired.
          */
     } elseif ($payment->isCanceled()) {
         error_log('Expired: isCanceled: ' . print_r($orderId, true));
-        $sw_bookly->delete_by_custom_id($orderId);
+        
         set_mollie_status($_POST["id"], 'rejected');
+        $sw_bookly->delete_by_custom_id($orderId);
 
         /*
          * The payment has been canceled.
          */
     } elseif ($payment->hasRefunds()) {
         error_log('Expired: hasRefunds: ' . print_r($orderId, true));
-        $sw_bookly->delete_by_custom_id($orderId);
+        
         set_mollie_status($_POST["id"], 'refunded');
+        $sw_bookly->delete_by_custom_id($orderId);
 
         /*
          * The payment has been (partially) refunded.
@@ -186,8 +190,9 @@ try {
          */
     } elseif ($payment->hasChargebacks()) {
         error_log('Expired: Deleting: ' . print_r($orderId, true));
-        $sw_bookly->delete_by_custom_id($orderId);
+        
         set_mollie_status($_POST["id"], 'rejected');
+        $sw_bookly->delete_by_custom_id($orderId);
 
         /*
          * The payment has been (partially) charged back.
