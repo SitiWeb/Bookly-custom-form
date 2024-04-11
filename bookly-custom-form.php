@@ -957,16 +957,23 @@ function set_mollie_status($ref_id, $status = 'pending'){
                 return false;
             } else {
                 error_log('Sending emails: ');
-                $wpdb->update(
-                    $table_name_payments,
-                    array('status' => 'completed'), // Data to update
-                    array('id' => $updated_row['id']), // Where clause
-                    array('%s'), // Data format
-                    array('%d') // Where format
-                );
-               // (new sw_bookly_email)->send_payment_confirmation_email($b_appointment, $status, $customer_data, $appointment,$service_data);
-              	(new sw_bookly_email)->update_payment_info('roberto@sitiweb.nl', $status, $customer_data, $appointment,$service_data);
-                (new sw_bookly_email)->update_payment_info($customer_data->email, $status, $customer_data, $appointment,$service_data);
+                $old_status = $appointment['status']; // Get the old status
+                $new_status = $status; // Define the new status
+            
+                if ($old_status !== $new_status) { // Only send email if status is actually changed
+                    $wpdb->update(
+                        $table_name_payments,
+                        array('status' => $new_status), // Data to update
+                        array('id' => $updated_row['id']), // Where clause
+                        array('%s'), // Data format
+                        array('%d') // Where format
+                    );
+            
+                    // Send email only if the status is changed
+                    (new sw_bookly_email)->update_payment_info('zaandam@bodyunlimited.nl', $new_status, $customer_data, $appointment, $service_data);
+                    (new sw_bookly_email)->update_payment_info($customer_data->email, $new_status, $customer_data, $appointment, $service_data);
+                }
+            
                 return true;
             }
        
@@ -1084,7 +1091,7 @@ function test_function_sw2() {
                 
                 $test->send_email($key, $array);
             }
-            wp_mail('zaandam@bodyunlimited.nl','Herrineringen verstuurd','De herrineringen zijn verstuurd');
+            wp_mail('zaandam@bodyunlimited.nl','Herinneringen verstuurd','De herinneringen zijn verstuurd');
         //}
     }
 }
