@@ -1084,7 +1084,8 @@ function test_function_sw2() {
                 
                 $test->send_email($key, $array);
             }
+            wp_mail('zaandam@bodyunlimited.nl','Herrineringen verstuurd','De herrineringen zijn verstuurd');
         //}
     }
 }
-add_action('wp_head','test_function_sw2');
+//add_action('wp_head','test_function_sw2');

@@ -505,10 +505,13 @@ class sw_bookly_email{
         error_log( $message_html );
 
         $mail->set_recipient( $to );
-        $mail->set_subject( 'Updated afspraak' );
+        $mail->set_subject( 'Status van uw afspraak gewijzigd' );
         
         $mail->set_content( $message_html );
         $mail->send_email();
+
+        $mail->set_recipient( $to );
+        $mail->send_email( $this->admin_email );
         
         // //User notification
         // $notification = $mail->get_notification($service_data, false);
