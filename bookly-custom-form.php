@@ -409,60 +409,48 @@ function bookly_custom_form_update_page()
 function bookly_custom_admin_page_settings()
 {
     global $wpdb;
-
-    // Als het formulier met opties gesubmit is -> Sla de nieuwe opties op in de database
+    
     if (isset($_POST['submit'])) {
-        // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-        if (isset($_POST['swbcf_main_color'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_main_color']) . '" WHERE OPTION_NAME = "primary_color"';
-            $wpdb->query($query);
-        }
-        // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-        if (isset($_POST['swbcf_accent_color'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_accent_color']) . '" WHERE OPTION_NAME = "accent_color"';
-            $wpdb->query($query);
-        }
-        // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-        if (isset($_POST['swbcf_text_color'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_text_color']) . '" WHERE OPTION_NAME = "text_color"';
-            $wpdb->query($query);
-        }
+        $options = array(
+            'primary_color' => 'swbcf_main_color',
+            'accent_color' => 'swbcf_accent_color',
+            'text_color' => 'swbcf_text_color',
+            'user' => 'swbcf_user',
+            'pass' => 'swbcf_pass',
+            'intern_id' => 'swbcf_intern_id',
+            'mob_num' => 'swbcf_mob_tel',
+            'mail_name' => 'swbcf_mail_name',
+            'live_key' => 'swbcf_live_key',
+            'test_key' => 'swbcf_test_key',
+            'mollie_mode' => 'swbcf_mollie_mode' // Added Mollie mode option
+        );
 
-        // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-        if (isset($_POST['swbcf_user'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_user']) . '" WHERE OPTION_NAME = "user"';
-            $wpdb->query($query);
-        }
-        // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-        if (isset($_POST['swbcf_pass'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . base64_encode(esc_html($_POST['swbcf_pass'])) . '" WHERE OPTION_NAME = "pass"';
-            $wpdb->query($query);
-        }
-        // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-        if (isset($_POST['swbcf_intern_id'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_intern_id']) . '" WHERE OPTION_NAME = "intern_id"';
-            $wpdb->query($query);
-        }
+        foreach ($options as $optionName => $postKey) {
+            if (isset($_POST[$postKey])) {
+                // Check if the row exists
+                $existing_row = $wpdb->get_row($wpdb->prepare(
+                    "SELECT * FROM {$wpdb->prefix}swbcf_options WHERE OPTION_NAME = %s",
+                    $optionName
+                ));
 
-        // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-        if (isset($_POST['swbcf_mob_tel'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_mob_tel']) . '" WHERE OPTION_NAME = "mob_num"';
-            $wpdb->query($query);
-        }
-        // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-        if (isset($_POST['swbcf_mail_name'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_mail_name']) . '" WHERE OPTION_NAME = "mail_name"';
-            $wpdb->query($query);
-        }
-         // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-         if (isset($_POST['swbcf_live_key'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_live_key']) . '" WHERE OPTION_NAME = "live_key"';
-            $wpdb->query($query);
-        }
-          // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
-          if (isset($_POST['swbcf_test_key'])) {
-            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_test_key']) . '" WHERE OPTION_NAME = "test_key"';
-            $wpdb->query($query);
+                if ($existing_row) {
+                    // Update existing row
+                    $query = $wpdb->prepare(
+                        'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = %s WHERE OPTION_NAME = %s',
+                        esc_html($_POST[$postKey]),
+                        $optionName
+                    );
+                } else {
+                    // Row doesn't exist, insert a new row
+                    $query = $wpdb->prepare(
+                        'INSERT INTO ' . $wpdb->prefix . 'swbcf_options (OPTION_NAME, OPTION_VALUE) VALUES (%s, %s)',
+                        $optionName,
+                        esc_html($_POST[$postKey])
+                    );
+                }
+
+                $wpdb->query($query);
+            }
         }
     }
 
@@ -477,8 +465,9 @@ function bookly_custom_admin_page_settings()
     $intern_id = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "intern_id"');
     $live_key = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "live_key"');
     $test_key = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "test_key"');
+    $mollie_mode = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "mollie_mode"'); // Get Mollie mode
 
-?>
+    ?>
     <!-- Voeg de style voor dit formulier toe -->
     <link rel='stylesheet' href='<?php echo get_site_url(); ?>/wp-content/plugins/Bookly-custom-form/css/swbcf-admin-page-style.css'>
 
@@ -545,10 +534,20 @@ function bookly_custom_admin_page_settings()
             <!-- Vul het invulveld in met de bestaande waarde die eerder uit de database is opgehaald -->
             <input type="text" name='swbcf_test_key' value="<?php echo $test_key->OPTION_VALUE; ?>" />
         </label>
+        <!-- Added Mollie mode dropdown -->
+        <label for="swbcf_mollie_mode">
+            <?php esc_html_e('Mollie mode', 'swbcf_mollie_mode'); ?>
+            <select name="swbcf_mollie_mode">
+                <option value="live" <?php selected($mollie_mode->OPTION_VALUE, 'live'); ?>>Live</option>
+                <option value="test" <?php selected($mollie_mode->OPTION_VALUE, 'test'); ?>>Test</option>
+            </select>
+        </label>
         <input type="submit" value="Opslaan" name='submit'>
     </form>
 <?php
 }
+
+
 
 // De activatie hook voor de plugin. Deze code runt als de plugin geactiveerd word
 register_activation_hook(__FILE__, "activate_swbcf");
