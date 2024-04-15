@@ -4,8 +4,9 @@ require_once ABSPATH . 'wp-content/plugins/bookly-responsive-appointment-booking
 use Bookly\Lib\Entities\Payment;
 class SWBooklyMollie{
     private $api_key;
-    private $api_type;
+
     private $test_api_key;
+    public $api_type;
 
     public function __construct()
     {
