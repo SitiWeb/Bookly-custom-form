@@ -1,6 +1,7 @@
 <?php
 $mollie = new SWBooklyMollie();
 if ($mollie->api_type === 'test'){
+    echo 'Tijdelijk niet beschikbaar, probeer het later opnieuw.';
     return '';
 }
 
