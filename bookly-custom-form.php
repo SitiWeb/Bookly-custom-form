@@ -790,8 +790,8 @@ function get_all_payments($payement='checkout'){
     }
 
     $query = $wpdb->prepare(
-        "SELECT * FROM {$wpdb->prefix}bookly_payments WHERE ref_id LIKE %s AND status NOT IN (%s, %s)",
-        $prefix . '%', '123', '234'
+        "SELECT * FROM {$wpdb->prefix}bookly_payments WHERE ref_id LIKE %s AND status NOT IN (%s, %s, %s)",
+        $prefix . '%', 'completed', 'rejected', 'expired'
     );
     
     $results = $wpdb->get_results($query);
@@ -912,10 +912,10 @@ function check_link_payment($id){
 
     if ($payment_id) {
         // Log the webhook data to a file
-        $mollie = new \Mollie\Api\MollieApiClient();
-        $mollie->setApiKey("live_eSWu84NcASMzABRpQta9CkcEktBuUQ");
-
-        $payment = $mollie->paymentLinks->get($payment_id);
+        $payment_object = new SW_Bookly_Payment($id);
+        $payment = $payment_object->get_mollie_data();
+        var_dump($payment);
+        wp_die();
        
         if ($payment->isPaid()) {
             echo 'PAID';
