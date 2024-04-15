@@ -14,9 +14,9 @@ class SWBooklyMollie{
         $live_key = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "live_key"');
         $test_key = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "test_key"');
         $mollie_mode = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "mollie_mode"'); // Get Mollie mode
-        $this->test_api_key = $test_key;
-        $this->api_key = $live_key;
-        $this->api_type = $mollie_mode;
+        $this->test_api_key = $test_key->OPTION_VALUE;
+        $this->api_key = $live_key->OPTION_VALUE;
+        $this->api_type = $mollie_mode->OPTION_VALUE;
     }
 
     public function get_api_key(){
