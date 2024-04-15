@@ -135,8 +135,8 @@ class SW_Bookly_Payment{
                 );
         
                 // Send email only if the status is changed
-                (new sw_bookly_email)->update_payment_info('zaandam@bodyunlimited.nl', $new_status, $customer_data, $appointment, $service_data);
-                (new sw_bookly_email)->update_payment_info($customer_data->email, $new_status, $customer_data, $appointment, $service_data);
+                (new sw_bookly_email)->update_payment_info('zaandam@bodyunlimited.nl', $new_status, $this->data['appointment'],$this->data['customer_appointment'], $this->data['service']);
+                (new sw_bookly_email)->update_payment_info($this->data['customer']['email'], $new_status, $this->data['appointment'],$this->data['customer_appointment'], $this->data['service']);
             
         }
     }
