@@ -5,7 +5,7 @@ define('BOOKLY_SW_URL', plugin_dir_url(__FILE__));
 /**
  * Plugin Name: Sitiweb Bookly Form
  * Description: Formulier doormiddel van API zodat er aan de start en aan het einde van een afspraak een medewerker ingepland is
- * Version: 1.3.8
+ * Version: 1.3.10
  * Author: SitiWeb
  * Author URI: sitiweb.nl
  */
@@ -916,9 +916,7 @@ function check_link_payment($id){
         $mollie->setApiKey("live_eSWu84NcASMzABRpQta9CkcEktBuUQ");
 
         $payment = $mollie->paymentLinks->get($payment_id);
-        echo '<pre style="background:black; color:green;">';
        
-        echo '</pre>';
         if ($payment->isPaid()) {
             echo 'PAID';
             (new SWBooklyMollie())->change_payment_status($payment->id); 
@@ -933,8 +931,10 @@ function check_link_payment($id){
         }
 
         $targetDate = new DateTime("2024-06-06 11:00:00.000000");
-
-        if ($expiredAtDateTime == $targetDate) {
+        var_dump($targetDate);
+        var_dump($expiredAtDateTime);
+        wp_die();
+        if ($expiredAtDateTime->format('Y-m-d') === $targetDate->format('Y-m-d')) {
             echo 'The expiration date is equal to the target date.';
             set_mollie_status($payment_id, 'rejected');
         } 
