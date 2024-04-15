@@ -9,9 +9,13 @@ class SWBooklyMollie{
 
     public function __construct()
     {
-        $this->test_api_key = 'test_RkveJWA6a47SNKgz2nsrNAScB3cr6p';
-        $this->api_key = 'live_eSWu84NcASMzABRpQta9CkcEktBuUQ';
-        $this->api_type = 'live';
+        global $wpdb;
+        $live_key = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "live_key"');
+        $test_key = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "test_key"');
+        $mollie_mode = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "mollie_mode"'); // Get Mollie mode
+        $this->test_api_key = $test_key;
+        $this->api_key = $live_key;
+        $this->api_type = $mollie_mode;
     }
 
     public function get_api_key(){

@@ -5,7 +5,7 @@ define('BOOKLY_SW_URL', plugin_dir_url(__FILE__));
 /**
  * Plugin Name: Sitiweb Bookly Form
  * Description: Formulier doormiddel van API zodat er aan de start en aan het einde van een afspraak een medewerker ingepland is
- * Version: 1.3.1
+ * Version: 1.3.4
  * Author: SitiWeb
  * Author URI: sitiweb.nl
  */
