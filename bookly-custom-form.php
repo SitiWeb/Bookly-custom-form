@@ -5,7 +5,7 @@ define('BOOKLY_SW_URL', plugin_dir_url(__FILE__));
 /**
  * Plugin Name: Sitiweb Bookly Form
  * Description: Formulier doormiddel van API zodat er aan de start en aan het einde van een afspraak een medewerker ingepland is
- * Version: 1.3.7
+ * Version: 1.3.8
  * Author: SitiWeb
  * Author URI: sitiweb.nl
  */
@@ -923,8 +923,12 @@ function check_link_payment($id){
             echo 'PAID';
             (new SWBooklyMollie())->change_payment_status($payment->id); 
         }
-        elseif($payment->isExpired()){
-            set_mollie_status($payment_id, 'rejected');
+        $expiredAt = $paymentLink->expiredAt;
+        $currentDateTime = new DateTime();
+        $expiredAtDateTime = new DateTime($expiredAt);
+
+        if ($currentDateTime > $expiredAtDateTime) {
+            echo 'The payment link has expired.';
         }
     
 
