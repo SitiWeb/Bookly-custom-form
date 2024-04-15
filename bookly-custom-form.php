@@ -914,8 +914,6 @@ function check_link_payment($id){
         // Log the webhook data to a file
         $payment_object = new SW_Bookly_Payment($id);
         $payment = $payment_object->get_mollie_data();
-        var_dump($payment_object->get_payment_link());
-
        
         if ($payment->isPaid()) {
             echo 'PAID';
@@ -1005,8 +1003,8 @@ function set_mollie_status($ref_id, $status = 'pending'){
                     );
             
                     // Send email only if the status is changed
-                    // (new sw_bookly_email)->update_payment_info('zaandam@bodyunlimited.nl', $new_status, $customer_data, $appointment, $service_data);
-                    // (new sw_bookly_email)->update_payment_info($customer_data->email, $new_status, $customer_data, $appointment, $service_data);
+                 //   (new sw_bookly_email)->update_payment_info('zaandam@bodyunlimited.nl', $new_status, $customer_data, $appointment, $service_data);
+                    (new sw_bookly_email)->update_payment_info($customer_data->email, $new_status, $customer_data, $appointment, $service_data);
                 }
             
                 return true;
