@@ -1,4 +1,9 @@
 <?php
+$mollie = new SWBooklyMollie();
+if ($mollie->SWBooklyMollie === 'test'){
+    return '';
+}
+
 $nonce = wp_create_nonce('sw_custom_form_nonce');
 //    $form = new bookly_sw_custom();
     //var_dump($a);
