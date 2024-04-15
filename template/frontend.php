@@ -1,6 +1,6 @@
 <?php
 $mollie = new SWBooklyMollie();
-if ($mollie->SWBooklyMollie === 'test'){
+if ($mollie->api_type === 'test'){
     return '';
 }
 
