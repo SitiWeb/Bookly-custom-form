@@ -826,7 +826,7 @@ if(isset($_GET['ref_id'])){
     else{
         get_all_payments();
     }
-    
+    wp_die();
 }
 
 function check_payment($id){
