@@ -923,13 +923,22 @@ function check_link_payment($id){
             echo 'PAID';
             (new SWBooklyMollie())->change_payment_status($payment->id); 
         }
-        $expiredAt = $paymentLink->expiredAt;
+        $expiredAt = $payment->expiredAt;
         $currentDateTime = new DateTime();
         $expiredAtDateTime = new DateTime($expiredAt);
 
         if ($currentDateTime > $expiredAtDateTime) {
             echo 'The payment link has expired.';
+            set_mollie_status($payment_id, 'rejected');
         }
+
+        $targetDate = new DateTime("2024-06-06 11:00:00.000000");
+
+        if ($expiredAtDateTime == $targetDate) {
+            echo 'The expiration date is equal to the target date.';
+            set_mollie_status($payment_id, 'rejected');
+        } 
+
     
 
         // Now you can handle the webhook data
