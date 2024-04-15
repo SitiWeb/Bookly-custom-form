@@ -454,6 +454,16 @@ function bookly_custom_admin_page_settings()
             $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_mail_name']) . '" WHERE OPTION_NAME = "mail_name"';
             $wpdb->query($query);
         }
+         // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
+         if (isset($_POST['swbcf_live_key'])) {
+            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_live_key']) . '" WHERE OPTION_NAME = "live_key"';
+            $wpdb->query($query);
+        }
+          // Sla alleen de nieuwe value op als deze in het formulier ingevuld is
+          if (isset($_POST['swbcf_test_key'])) {
+            $query = 'UPDATE ' . $wpdb->prefix . 'swbcf_options SET OPTION_VALUE = "' . esc_html($_POST['swbcf_test_key']) . '" WHERE OPTION_NAME = "test_key"';
+            $wpdb->query($query);
+        }
     }
 
     // Haal de bestaande waardes uit de database op om later als standaard waarde van de invul velden in te stellen. 
@@ -465,6 +475,8 @@ function bookly_custom_admin_page_settings()
     $user = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "user"');
     $pass = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "pass"');
     $intern_id = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "intern_id"');
+    $live_key = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "live_key"');
+    $test_key = $wpdb->get_row('SELECT OPTION_VALUE FROM ' . $wpdb->prefix . 'swbcf_options WHERE OPTION_NAME = "test_key"');
 
 ?>
     <!-- Voeg de style voor dit formulier toe -->
@@ -522,7 +534,17 @@ function bookly_custom_admin_page_settings()
             <input type="text" name='swbcf_mob_tel' value="<?php echo $mob->OPTION_VALUE; ?>" />
         </label>
         <p> Deze instelling word alleen gebruikt om het mobiele nummer op de bevestigings email te zetten. </p>
-
+        <h2> Mollie instellingen </h2>
+        <label for="swbcf_live_key">
+            <?php esc_html_e('Live key', 'swbcf_live_key'); ?>
+            <!-- Vul het invulveld in met de bestaande waarde die eerder uit de database is opgehaald -->
+            <input type="text" name='swbcf_live_key' value="<?php echo $live_key->OPTION_VALUE; ?>" />
+        </label>
+        <label for="swbcf_mob_tel">
+            <?php esc_html_e('Test key', 'swbcf_test_key'); ?>
+            <!-- Vul het invulveld in met de bestaande waarde die eerder uit de database is opgehaald -->
+            <input type="text" name='swbcf_test_key' value="<?php echo $test_key->OPTION_VALUE; ?>" />
+        </label>
         <input type="submit" value="Opslaan" name='submit'>
     </form>
 <?php
