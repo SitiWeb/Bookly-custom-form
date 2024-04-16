@@ -796,11 +796,6 @@ function get_all_payments($payement='checkout'){
     
     $results = $wpdb->get_results($query);
 
-    // Step 3: Execute the query
-    $results = $wpdb->get_results($query);
-
-
-
     // Step 4: Loop through the results
     if (!empty($results)) {
         
@@ -914,9 +909,8 @@ function check_link_payment($id){
         // Log the webhook data to a file
         $payment_object = new SW_Bookly_Payment($id);
         $payment = $payment_object->get_mollie_data();
-       
+        $payment_object->get_status();
         if ($payment->isPaid()) {
-            echo 'PAID';
             (new SWBooklyMollie())->change_payment_status($payment->id); 
         }
         $expiredAt = $payment->expiredAt;

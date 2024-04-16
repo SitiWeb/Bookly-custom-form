@@ -116,6 +116,12 @@ class SW_Bookly_Payment{
         return $this->data;
     }
 
+    public function get_status(){
+        global $wpdb;
+        $updated_row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name_payments WHERE ref_id = %s", $this->payment_id), ARRAY_A);
+        return $updated_row['status'];
+    }
+
     public function set_status($new_status){
         global $wpdb;
         $table_name_payments = $wpdb->prefix . 'bookly_payments'; // Replace 'your_table_name' with the actual table name
